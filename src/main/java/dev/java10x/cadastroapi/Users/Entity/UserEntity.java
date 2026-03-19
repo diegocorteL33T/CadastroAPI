@@ -2,17 +2,16 @@ package dev.java10x.cadastroapi.Users.Entity;
 
 import dev.java10x.cadastroapi.Tasks.Entity.TaskEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 
 //JPA -> Java Persistence API
 @Entity // Turns a Class into a DB Entity
 @Table(name = "tb_users")
+@Data //Getter and Setters
 @NoArgsConstructor
-@Getter
-@Setter
+
 public class UserEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
