@@ -1,10 +1,21 @@
 package dev.java10x.cadastroapi.Users.Controller;
 
+import dev.java10x.cadastroapi.Users.Entity.UserEntity;
+import dev.java10x.cadastroapi.Users.Service.UserService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    //Dependency Injection
+    private UserService service;
+
+    public UserController(UserService service) {
+        this.service = service;
+    }
 
     @GetMapping("/welcome")
     public String welcome(){
@@ -21,8 +32,8 @@ public class UserController {
     //Show all Users (Read)
 
     @GetMapping("/all")
-    public String showAllUsers(){
-        return "Show all users";
+    public List<UserEntity> showAllUsers() {
+    return service.showAllUsers();
     }
 
     //Sort User by ID (Read)
