@@ -31,31 +31,25 @@ public class UserController {
 
     //Show all Users (Read)
 
-    @GetMapping("/all")
+    @GetMapping("/list")
     public List<UserEntity> showAllUsers() {
     return service.showAllUsers();
     }
 
     //Sort User by ID (Read)
 
-    @GetMapping("/showuserbyid")
-    public String showUserByID(){
-        return "Show user by ID";
-    }
+    @GetMapping("/list/{id}")
+    public UserEntity showUserByID(@PathVariable Long id){ return service.showUserById(id); }
 
     //Update User data (Update)
 
     @PutMapping("/update")
-    public String updateUserByID(){
-        return "Update user by ID";
-    }
+    public String updateUserByID(){ return "Update user by ID"; }
 
     //Delete User (Delete)
 
     @DeleteMapping("/deletebyid")
-    public String deleteUserByID(){
-        return  "User deleted by id";
-    }
+    public String deleteUserByID(){ return  "User deleted by id";}
 
 
 
