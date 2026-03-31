@@ -1,5 +1,6 @@
 package dev.java10x.cadastroapi.Tasks.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.java10x.cadastroapi.Tasks.Enums.TaskDifficulty;
 import dev.java10x.cadastroapi.Users.Entity.UserEntity;
 import jakarta.persistence.*;
@@ -29,6 +30,7 @@ public class TaskEntity {
 
     //OneToMany - a task have many users
     @OneToMany(mappedBy = "task")
+    @JsonIgnore
     private List<UserEntity> users;
 }
 

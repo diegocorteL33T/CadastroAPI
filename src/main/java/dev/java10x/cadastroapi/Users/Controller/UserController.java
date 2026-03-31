@@ -1,16 +1,58 @@
 package dev.java10x.cadastroapi.Users.Controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import dev.java10x.cadastroapi.Users.Entity.UserEntity;
+import dev.java10x.cadastroapi.Users.Service.UserService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/user")
 public class UserController {
+
+    //Dependency Injection
+    private UserService service;
+
+    public UserController(UserService service) {
+        this.service = service;
+    }
 
     @GetMapping("/welcome")
     public String welcome(){
         return  "this is the first message of this route";
     }
+
+    //Add user (Create)
+
+    @PostMapping("/register")
+    public UserEntity createUser(@RequestBody UserEntity user){
+
+        /*
+        *   @RequestBody in Spring Boot tells the controller to read
+        *   the HTTP request body and convert it into a Java object.
+        *   In this method, the JSON sent by the client is deserialized
+        *   into UserEntity user automatically, used in POST AND PUT endpoints
+        *
+        *  */
+
+        return service.createUser(user);
+
+    }
+
+    @GetMapping("/list")
+    public List<UserEntity> showAllUsers() { return service.showAllUsers(); }
+
+    @GetMapping("/list/{id}")
+    public UserEntity showUserByID(@PathVariable Long id){ return service.showUserById(id); }
+
+    @PutMapping("/update/{id}")
+    public UserEntity updateUser(@RequestParam Long id, @RequestBody UserEntity existingUser){
+        return service.updateUser(id,existingUser);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteUserByID(@PathVariable Long id){ service.deleteUserById(id); }
+
+
 
 }

@@ -27,6 +27,8 @@ public class UserEntity {
     @Column(nullable = false)
     private int age;
 
+    private String rank;
+
     // @ManyToOne - a user have only one task
     @ManyToOne
     @JoinColumn(name = "task_id") // Foreign Key

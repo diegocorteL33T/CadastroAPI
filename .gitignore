@@ -34,3 +34,6 @@ build/
 
 ### Env File ###
 .env
+
+### Data H2 Folder ###
+data/
