@@ -25,32 +25,33 @@ public class UserController {
     //Add user (Create)
 
     @PostMapping("/register")
-    public String createUser(){
-        return "User successfully created";
-    }
+    public UserEntity createUser(@RequestBody UserEntity user){
 
-    //Show all Users (Read)
+        /*
+        *   @RequestBody in Spring Boot tells the controller to read
+        *   the HTTP request body and convert it into a Java object.
+        *   In this method, the JSON sent by the client is deserialized
+        *   into UserEntity user automatically, used in POST AND PUT endpoints
+        *
+        *  */
+
+        return service.createUser(user);
+
+    }
 
     @GetMapping("/list")
-    public List<UserEntity> showAllUsers() {
-    return service.showAllUsers();
-    }
-
-    //Sort User by ID (Read)
+    public List<UserEntity> showAllUsers() { return service.showAllUsers(); }
 
     @GetMapping("/list/{id}")
     public UserEntity showUserByID(@PathVariable Long id){ return service.showUserById(id); }
 
-    //Update User data (Update)
+    @PutMapping("/update/{id}")
+    public UserEntity updateUser(@RequestParam Long id, @RequestBody UserEntity existingUser){
+        return service.updateUser(id,existingUser);
+    }
 
-    @PutMapping("/update")
-    public String updateUserByID(){ return "Update user by ID"; }
-
-    //Delete User (Delete)
-
-    @DeleteMapping("/deletebyid")
-    public String deleteUserByID(){ return  "User deleted by id";}
-
+    @DeleteMapping("/delete/{id}")
+    public void deleteUserByID(@PathVariable Long id){ service.deleteUserById(id); }
 
 
 
