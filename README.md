@@ -28,7 +28,7 @@ A RESTful User Management API built with **Spring Boot** and **Java 21**, featur
 | Language | Java 21 |
 | Framework | Spring Boot 4.0.3 |
 | Build Tool | Maven |
-| Database | H2 (in-memory) |
+| Database | H2 (file-based, testing — to be replaced) |
 | ORM | Spring Data JPA / Hibernate |
 | Migrations | Flyway |
 | Utilities | Lombok |
@@ -60,12 +60,12 @@ cd user-management-api
 The application requires the following environment variables. Create a `.env` file or export them in your shell:
 
 ```env
-DATABASE_URL=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+DATABASE_URL=jdbc:h2:file:./data/testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 DATABASE_USERNAME=sa
 DATABASE_PASSWORD=
 ```
 
-> **Note:** The default configuration uses an H2 in-memory database. All data is lost when the application stops.
+> **Note:** The current configuration uses a file-based H2 database for testing purposes. The database file persists between restarts but will be replaced with a production-grade database in a future update.
 
 The full Spring Boot configuration is in `src/main/resources/application.properties`:
 
@@ -105,7 +105,7 @@ A web-based database console is available at **http://localhost:8080/h2-console*
 
 | Field | Value |
 |-------|-------|
-| JDBC URL | `jdbc:h2:mem:testdb` |
+| JDBC URL | `jdbc:h2:file:./data/testdb` |
 | Username | `sa` |
 | Password | *(leave empty)* |
 
@@ -261,7 +261,7 @@ Base path: `/task`
 
 ## Database
 
-The project uses an **H2 in-memory database** managed with **Flyway** migrations.
+The project currently uses a **file-based H2 database** (for testing) managed with **Flyway** migrations. This database will be replaced with a production-grade database in a future update.
 
 ### Schema
 
