@@ -27,7 +27,6 @@ public class UserEntity {
     @Column(nullable = false)
     private int age;
 
-    @Column(nullable = false)
     private String rank;
 
     // @ManyToOne - a user have only one task
