@@ -1,6 +1,6 @@
-package dev.java10x.cadastroapi.Users.Entity;
+package dev.java10x.usermanagementapi.Users.Entity;
 
-import dev.java10x.cadastroapi.Tasks.Entity.TaskEntity;
+import dev.java10x.usermanagementapi.Tasks.Entity.TaskEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

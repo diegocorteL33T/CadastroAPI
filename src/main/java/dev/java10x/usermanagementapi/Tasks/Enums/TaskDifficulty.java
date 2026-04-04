@@ -1,4 +1,4 @@
-package dev.java10x.cadastroapi.Tasks.Enums;
+package dev.java10x.usermanagementapi.Tasks.Enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

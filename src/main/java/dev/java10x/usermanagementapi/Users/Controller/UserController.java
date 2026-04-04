@@ -1,7 +1,7 @@
-package dev.java10x.cadastroapi.Users.Controller;
+package dev.java10x.usermanagementapi.Users.Controller;
 
-import dev.java10x.cadastroapi.Users.Entity.UserEntity;
-import dev.java10x.cadastroapi.Users.Service.UserService;
+import dev.java10x.usermanagementapi.Users.Entity.UserEntity;
+import dev.java10x.usermanagementapi.Users.Service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

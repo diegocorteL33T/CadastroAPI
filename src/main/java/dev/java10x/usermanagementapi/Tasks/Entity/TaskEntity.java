@@ -1,13 +1,11 @@
-package dev.java10x.cadastroapi.Tasks.Entity;
+package dev.java10x.usermanagementapi.Tasks.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.java10x.cadastroapi.Tasks.Enums.TaskDifficulty;
-import dev.java10x.cadastroapi.Users.Entity.UserEntity;
+import dev.java10x.usermanagementapi.Tasks.Enums.TaskDifficulty;
+import dev.java10x.usermanagementapi.Users.Entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 

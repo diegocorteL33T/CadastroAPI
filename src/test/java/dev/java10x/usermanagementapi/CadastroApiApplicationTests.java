@@ -1,4 +1,4 @@
-package dev.java10x.cadastroapi;
+package dev.java10x.usermanagementapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

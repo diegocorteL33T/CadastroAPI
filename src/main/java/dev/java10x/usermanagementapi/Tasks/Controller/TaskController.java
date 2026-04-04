@@ -1,4 +1,4 @@
-package dev.java10x.cadastroapi.Tasks.Controller;
+package dev.java10x.usermanagementapi.Tasks.Controller;
 
 import org.springframework.web.bind.annotation.*;
 

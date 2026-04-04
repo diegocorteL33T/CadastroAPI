@@ -1,4 +1,4 @@
-package dev.java10x.cadastroapi;
+package dev.java10x.usermanagementapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
