@@ -1,6 +1,8 @@
 package dev.java10x.usermanagementapi.Users.Service;
 
+import dev.java10x.usermanagementapi.Users.DTO.UserDTO;
 import dev.java10x.usermanagementapi.Users.Entity.UserEntity;
+import dev.java10x.usermanagementapi.Users.Mapper.UserMapper;
 import dev.java10x.usermanagementapi.Users.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +14,13 @@ public class UserService{
 
     //Dependency Injection
     private UserRepository repository;
+    private UserMapper mapper;
 
     //Constructor
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, UserMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
-
     public List<UserEntity> showAllUsers(){
         return repository.findAll();
     }
@@ -27,8 +30,10 @@ public class UserService{
         return user.orElse(null);
     }
 
-    public UserEntity createUser(UserEntity user) {
-        return repository.save(user);
+    public UserDTO createUser(UserDTO user) {
+        UserEntity userEntity = mapper.map(user);
+        UserEntity savedUser = repository.save(userEntity);
+        return mapper.map(savedUser);
     }
 
     public UserEntity updateUser(Long id,UserEntity existingUser){

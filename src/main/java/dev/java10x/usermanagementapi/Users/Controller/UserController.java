@@ -1,5 +1,6 @@
 package dev.java10x.usermanagementapi.Users.Controller;
 
+import dev.java10x.usermanagementapi.Users.DTO.UserDTO;
 import dev.java10x.usermanagementapi.Users.Entity.UserEntity;
 import dev.java10x.usermanagementapi.Users.Service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class UserController {
     //Add user (Create)
 
     @PostMapping("/register")
-    public UserEntity createUser(@RequestBody UserEntity user){
+    public UserDTO createUser(@RequestBody UserDTO user){
 
         /*
         *   @RequestBody in Spring Boot tells the controller to read
