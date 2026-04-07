@@ -1,6 +1,8 @@
 package dev.java10x.usermanagementapi.Users.Service;
 
+import dev.java10x.usermanagementapi.Users.DTO.UserDTO;
 import dev.java10x.usermanagementapi.Users.Entity.UserEntity;
+import dev.java10x.usermanagementapi.Users.Mapper.UserMapper;
 import dev.java10x.usermanagementapi.Users.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,33 +14,40 @@ public class UserService{
 
     //Dependency Injection
     private UserRepository repository;
+    private UserMapper mapper;
 
     //Constructor
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, UserMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
+    }
+    public List<UserDTO> showAllUsers(){
+        List<UserEntity> users = repository.findAll();
+        return users.stream()
+                .map(mapper::map)
+                .toList();
     }
 
-    public List<UserEntity> showAllUsers(){
-        return repository.findAll();
-    }
-
-    public UserEntity showUserById(Long id) {
+    public UserDTO showUserById(Long id) {
         Optional<UserEntity> user = repository.findById(id);
-        return user.orElse(null);
+        return user.map(mapper::map).orElse(null);
     }
 
-    public UserEntity createUser(UserEntity user) {
-        return repository.save(user);
+    public UserDTO createUser(UserDTO user) {
+        UserEntity userEntity = mapper.map(user);
+        UserEntity savedUser = repository.save(userEntity);
+        return mapper.map(savedUser);
     }
 
-    public UserEntity updateUser(Long id,UserEntity existingUser){
-        if(!repository.existsById(id)) { return null; }
-        existingUser.setId(id);
-        return repository.save(existingUser);
+    public UserDTO updateUser(Long id,UserDTO UserDTO) {
+    Optional<UserEntity> user = repository.findById(id);
+    if(!user.isPresent()){ return null; }
+    UserEntity existingUser = mapper.map(UserDTO);
+    existingUser.setId(id);
+    UserEntity savedUser = repository.save(existingUser);
+    return mapper.map(savedUser);
     }
 
-    public void deleteUserById(Long id){
-    repository.deleteById(id);
-    }
+    public void deleteUserById(Long id){ repository.deleteById(id); }
 
 }

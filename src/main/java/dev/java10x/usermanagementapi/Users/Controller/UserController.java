@@ -1,5 +1,6 @@
 package dev.java10x.usermanagementapi.Users.Controller;
 
+import dev.java10x.usermanagementapi.Users.DTO.UserDTO;
 import dev.java10x.usermanagementapi.Users.Entity.UserEntity;
 import dev.java10x.usermanagementapi.Users.Service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +23,8 @@ public class UserController {
         return  "this is the first message of this route";
     }
 
-    //Add user (Create)
-
     @PostMapping("/register")
-    public UserEntity createUser(@RequestBody UserEntity user){
+    public UserDTO createUser(@RequestBody UserDTO user){
 
         /*
         *   @RequestBody in Spring Boot tells the controller to read
@@ -40,19 +39,17 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    public List<UserEntity> showAllUsers() { return service.showAllUsers(); }
+    public List<UserDTO> showAllUsers() { return service.showAllUsers(); }
 
     @GetMapping("/list/{id}")
-    public UserEntity showUserByID(@PathVariable Long id){ return service.showUserById(id); }
+    public UserDTO showUserByID(@PathVariable Long id){ return service.showUserById(id); }
 
     @PutMapping("/update/{id}")
-    public UserEntity updateUser(@RequestParam Long id, @RequestBody UserEntity existingUser){
-        return service.updateUser(id,existingUser);
+    public UserDTO updateUser(@RequestParam Long id, @RequestBody UserDTO existingUser){
+        return service.updateUser(id, existingUser);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteUserByID(@PathVariable Long id){ service.deleteUserById(id); }
-
-
 
 }
