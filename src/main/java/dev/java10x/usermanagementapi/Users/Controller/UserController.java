@@ -23,8 +23,6 @@ public class UserController {
         return  "this is the first message of this route";
     }
 
-    //Add user (Create)
-
     @PostMapping("/register")
     public UserDTO createUser(@RequestBody UserDTO user){
 
@@ -41,19 +39,17 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    public List<UserEntity> showAllUsers() { return service.showAllUsers(); }
+    public List<UserDTO> showAllUsers() { return service.showAllUsers(); }
 
     @GetMapping("/list/{id}")
-    public UserEntity showUserByID(@PathVariable Long id){ return service.showUserById(id); }
+    public UserDTO showUserByID(@PathVariable Long id){ return service.showUserById(id); }
 
     @PutMapping("/update/{id}")
-    public UserEntity updateUser(@RequestParam Long id, @RequestBody UserEntity existingUser){
-        return service.updateUser(id,existingUser);
+    public UserDTO updateUser(@RequestParam Long id, @RequestBody UserDTO existingUser){
+        return service.updateUser(id, existingUser);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteUserByID(@PathVariable Long id){ service.deleteUserById(id); }
-
-
 
 }

@@ -21,13 +21,16 @@ public class UserService{
         this.repository = repository;
         this.mapper = mapper;
     }
-    public List<UserEntity> showAllUsers(){
-        return repository.findAll();
+    public List<UserDTO> showAllUsers(){
+        List<UserEntity> users = repository.findAll();
+        return users.stream()
+                .map(mapper::map)
+                .toList();
     }
 
-    public UserEntity showUserById(Long id) {
+    public UserDTO showUserById(Long id) {
         Optional<UserEntity> user = repository.findById(id);
-        return user.orElse(null);
+        return user.map(mapper::map).orElse(null);
     }
 
     public UserDTO createUser(UserDTO user) {
@@ -36,14 +39,15 @@ public class UserService{
         return mapper.map(savedUser);
     }
 
-    public UserEntity updateUser(Long id,UserEntity existingUser){
-        if(!repository.existsById(id)) { return null; }
-        existingUser.setId(id);
-        return repository.save(existingUser);
+    public UserDTO updateUser(Long id,UserDTO UserDTO) {
+    Optional<UserEntity> user = repository.findById(id);
+    if(!user.isPresent()){ return null; }
+    UserEntity existingUser = mapper.map(UserDTO);
+    existingUser.setId(id);
+    UserEntity savedUser = repository.save(existingUser);
+    return mapper.map(savedUser);
     }
 
-    public void deleteUserById(Long id){
-    repository.deleteById(id);
-    }
+    public void deleteUserById(Long id){ repository.deleteById(id); }
 
 }
