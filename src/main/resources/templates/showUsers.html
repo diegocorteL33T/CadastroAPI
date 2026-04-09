@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .modern-table thead {
+            background: linear-gradient(135deg, #4f46e5, #6d28d9);
+            color: white;
+        }
+
+        .modern-table th,
+        .modern-table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .modern-table td {
+            border-bottom: 1px solid #eee;
+        }
+
+        .modern-table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .no-task {
+            color: #999;
+            font-style: italic;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-secondary {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .actions form {
+            display: inline;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>User List</h1>
+
+    <table class="modern-table">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Rank</th>
+            <th>Tasks</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td>
+                <img th:src="${user.profile_picture}" class="avatar">
+            </td>
+
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.rank}"></td>
+
+            <td>
+                <span th:if="${user.task}">
+                    <b th:text="${user.task.name}"></b><br>
+                    <small th:text="'Difficulty: ' + ${user.task.difficulty}"></small>
+                </span>
+                <span th:if="${user.task == null}" class="no-task">
+                    No task assigned
+                </span>
+            </td>
+
+            <td class="actions">
+                <a href="#" class="btn btn-primary">Show</a>
+
+                <form th:action="@{/user/ui/delete/{id}(id=${user.id})}" method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('Are you sure?')">
+                        Delete
+                    </button>
+                </form>
+
+                <a href="#" class="btn btn-secondary">Update</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+```
