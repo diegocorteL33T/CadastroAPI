@@ -17,5 +17,6 @@ public class UserDTO {
     private int age;
     private String rank;
     private TaskEntity task;
+    private String profile_picture;
 
 }

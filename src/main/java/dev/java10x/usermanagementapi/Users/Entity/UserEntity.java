@@ -36,6 +36,8 @@ public class UserEntity {
     @JoinColumn(name = "task_id") // Foreign Key
     private TaskEntity task;
 
+    private String profile_picture;
+
 
 
 
