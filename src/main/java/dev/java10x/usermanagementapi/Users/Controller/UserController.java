@@ -34,7 +34,7 @@ public class UserController {
 
         UserDTO newUser = service.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body("User created successfully: " + newUser.getEmail());
+                .body("User created successfully: " + newUser.getName());
 
     }
 

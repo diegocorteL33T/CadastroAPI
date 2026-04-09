@@ -17,6 +17,7 @@ public class UserMapper {
         userEntity.setAge(userDTO.getAge());
         userEntity.setRank(userDTO.getRank());
         userEntity.setTask(userDTO.getTask());
+        userEntity.setProfile_picture(userDTO.getProfile_picture());
 
         return userEntity;
     }
@@ -30,6 +31,7 @@ public class UserMapper {
         userDTO.setAge(userEntity.getAge());
         userDTO.setRank(userEntity.getRank());
         userDTO.setTask(userEntity.getTask());
+        userDTO.setProfile_picture(userEntity.getProfile_picture());
 
         return userDTO;
     }
