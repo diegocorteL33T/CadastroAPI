@@ -15,7 +15,7 @@ import java.util.List;
 public class UserController {
 
     //Dependency Injection
-    private UserService service;
+    private final UserService service;
 
     public UserController(UserService service) {
         this.service = service;
