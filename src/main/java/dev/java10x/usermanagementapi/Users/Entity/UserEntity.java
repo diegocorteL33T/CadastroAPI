@@ -4,6 +4,7 @@ import dev.java10x.usermanagementapi.Tasks.Entity.TaskEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 //JPA -> Java Persistence API
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_users")
 @Data //Getter and Setters
 @NoArgsConstructor
+@ToString(exclude = "task")
 
 public class UserEntity {
 

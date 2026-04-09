@@ -6,6 +6,7 @@ import dev.java10x.usermanagementapi.Users.Entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "tb_tasks")
 @Data
 @NoArgsConstructor
+@ToString
 
 public class TaskEntity {
 
