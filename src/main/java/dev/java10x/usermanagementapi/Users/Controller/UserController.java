@@ -3,6 +3,9 @@ package dev.java10x.usermanagementapi.Users.Controller;
 import dev.java10x.usermanagementapi.Users.DTO.UserDTO;
 import dev.java10x.usermanagementapi.Users.Entity.UserEntity;
 import dev.java10x.usermanagementapi.Users.Service.UserService;
+import org.apache.catalina.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,13 +21,8 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("/welcome")
-    public String welcome(){
-        return  "this is the first message of this route";
-    }
-
     @PostMapping("/register")
-    public UserDTO createUser(@RequestBody UserDTO user){
+    public ResponseEntity<String> createUser(@RequestBody UserDTO user){
 
         /*
         *   @RequestBody in Spring Boot tells the controller to read
@@ -34,22 +32,52 @@ public class UserController {
         *
         *  */
 
-        return service.createUser(user);
+        UserDTO newUser = service.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("User created successfully: " + newUser.getEmail());
 
     }
 
     @GetMapping("/list")
-    public List<UserDTO> showAllUsers() { return service.showAllUsers(); }
+    public ResponseEntity<List<UserDTO>> showAllUsers() {
+        List<UserDTO> users = service.showAllUsers();
+        return ResponseEntity.ok(users);
+    }
 
     @GetMapping("/list/{id}")
-    public UserDTO showUserByID(@PathVariable Long id){ return service.showUserById(id); }
+    public ResponseEntity<?> showUserByID(@PathVariable Long id){
+        UserDTO user = service.showUserById(id);
+        if(user != null){
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("User not found with id " + id);
+        }
+
+    }
 
     @PutMapping("/update/{id}")
-    public UserDTO updateUser(@RequestParam Long id, @RequestBody UserDTO existingUser){
-        return service.updateUser(id, existingUser);
+        public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO existingUser){
+        UserDTO user = service.updateUser(id, existingUser);
+        if(user != null){
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("User not found with id " + id);
+        }
+
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteUserByID(@PathVariable Long id){ service.deleteUserById(id); }
+    public ResponseEntity<String> deleteUserByID(@PathVariable Long id){
+        UserDTO user = service.showUserById(id);
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found with id " + id);
+        } else {
+            service.deleteUserById(id);
+            return ResponseEntity.ok("User deleted successfully");
+        }
+
+    }
 
 }

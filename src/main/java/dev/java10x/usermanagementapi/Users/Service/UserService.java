@@ -13,8 +13,8 @@ import java.util.Optional;
 public class UserService{
 
     //Dependency Injection
-    private UserRepository repository;
-    private UserMapper mapper;
+    private final UserRepository repository;
+    private final UserMapper mapper;
 
     //Constructor
     public UserService(UserRepository repository, UserMapper mapper) {
@@ -41,9 +41,27 @@ public class UserService{
 
     public UserDTO updateUser(Long id,UserDTO UserDTO) {
     Optional<UserEntity> user = repository.findById(id);
-    if(!user.isPresent()){ return null; }
-    UserEntity existingUser = mapper.map(UserDTO);
-    existingUser.setId(id);
+    
+    if(user.isEmpty()) return null;
+    
+    UserEntity existingUser =  user.get();
+    
+    if(UserDTO.getName() != null){
+        existingUser.setName(UserDTO.getName());
+    }
+    if(UserDTO.getEmail() != null){
+        existingUser.setEmail(UserDTO.getEmail());
+    }
+    if(UserDTO.getRank()!= null){
+        existingUser.setRank(UserDTO.getRank());
+    }
+
+    if(UserDTO.getTask() != null){
+        existingUser.setTask(UserDTO.getTask());
+    }
+
+    existingUser.setAge(UserDTO.getAge());
+
     UserEntity savedUser = repository.save(existingUser);
     return mapper.map(savedUser);
     }
