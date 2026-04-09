@@ -125,7 +125,6 @@
         <thead>
         <tr>
             <th>Image</th>
-            <th>ID</th>
             <th>Name</th>
             <th>Age</th>
             <th>Email</th>
@@ -138,10 +137,9 @@
         <tbody>
         <tr th:each="user : ${users}">
             <td>
-                <img th:src="${user.profile_picture}" class="avatar">
+                <img th:src="|${user.profile_picture}|" class="avatar">
             </td>
 
-            <td th:text="${user.id}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.age}"></td>
             <td th:text="${user.email}"></td>
@@ -177,4 +175,4 @@
 
 </body>
 </html>
-```
+
