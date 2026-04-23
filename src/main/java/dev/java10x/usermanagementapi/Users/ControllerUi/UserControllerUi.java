@@ -23,7 +23,7 @@ public class UserControllerUi {
     public String showAllUsers(Model model) {
         List<UserDTO> users = service.showAllUsers();
         model.addAttribute("users", users);
-        return "ShowUsers";
+        return "showUsers";
     }
 
 
