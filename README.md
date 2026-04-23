@@ -1,6 +1,6 @@
 # User Management API
 
-A RESTful User Management API built with **Spring Boot** and **Java 21**, featuring full CRUD operations for users and a scaffolded tasks module.
+A RESTful User Management API built with **Spring Boot** and **Java 21**, featuring full CRUD operations for users, a Thymeleaf-powered web UI, and a scaffolded tasks module.
 
 ---
 
@@ -14,6 +14,8 @@ A RESTful User Management API built with **Spring Boot** and **Java 21**, featur
 - [API Reference](#api-reference)
   - [Users](#users)
   - [Tasks](#tasks)
+- [Web UI](#web-ui)
+- [API Documentation (Swagger)](#api-documentation-swagger)
 - [Database](#database)
 - [Testing](#testing)
 - [Project Structure](#project-structure)
@@ -31,6 +33,8 @@ A RESTful User Management API built with **Spring Boot** and **Java 21**, featur
 | Database | H2 (file-based, testing — to be replaced) |
 | ORM | Spring Data JPA / Hibernate |
 | Migrations | Flyway |
+| Template Engine | Thymeleaf |
+| API Docs | SpringDoc OpenAPI / Swagger UI |
 | Utilities | Lombok |
 
 ---
@@ -117,17 +121,6 @@ A web-based database console is available at **http://localhost:8080/h2-console*
 
 Base path: `/user`
 
-#### GET `/user/welcome`
-
-Health-check / welcome endpoint.
-
-**Response `200 OK`**
-```
-this is the first message of this route
-```
-
----
-
 #### POST `/user/register`
 
 Register a new user.
@@ -138,20 +131,14 @@ Register a new user.
   "name": "John Doe",
   "email": "john@example.com",
   "age": 30,
-  "rank": "GOLD"
+  "rank": "GOLD",
+  "profile_picture": "https://example.com/photo.jpg"
 }
 ```
 
-**Response `200 OK`**
-```json
-{
-  "id": 1,
-  "name": "John Doe",
-  "email": "john@example.com",
-  "age": 30,
-  "rank": "GOLD",
-  "task": null
-}
+**Response `201 Created`**
+```
+User created successfully: John Doe
 ```
 
 ---
@@ -169,7 +156,8 @@ Retrieve all registered users.
     "email": "john@example.com",
     "age": 30,
     "rank": "GOLD",
-    "task": null
+    "task": null,
+    "profile_picture": "https://example.com/photo.jpg"
   }
 ]
 ```
@@ -192,23 +180,27 @@ Retrieve a single user by ID.
   "email": "john@example.com",
   "age": 30,
   "rank": "GOLD",
-  "task": null
+  "task": null,
+  "profile_picture": "https://example.com/photo.jpg"
 }
+```
+
+**Response `404 Not Found`**
+```
+User not found with id 1
 ```
 
 ---
 
 #### PUT `/user/update/{id}`
 
-Update an existing user.
-
-> **Note:** Despite `{id}` appearing in the path, the `id` is read from the **query string** (`@RequestParam`). Call this endpoint as `/user/update/1?id=1`.
+Update an existing user by ID (path variable).
 
 | Parameter | Type | Location | Description |
 |-----------|------|----------|-------------|
-| `id` | `Long` | Query string (`?id=`) | ID of the user to update |
+| `id` | `Long` | Path (`/{id}`) | ID of the user to update |
 
-**Request body**
+**Request body** *(only include fields you want to update)*
 ```json
 {
   "name": "John Updated",
@@ -226,8 +218,14 @@ Update an existing user.
   "email": "john.updated@example.com",
   "age": 31,
   "rank": "PLATINUM",
-  "task": null
+  "task": null,
+  "profile_picture": "https://example.com/photo.jpg"
 }
+```
+
+**Response `404 Not Found`**
+```
+User not found with id 1
 ```
 
 ---
@@ -240,7 +238,15 @@ Delete a user by ID.
 |-----------|------|-------------|
 | `id` | `Long` | User ID (path variable) |
 
-**Response `200 OK`** *(no body)*
+**Response `200 OK`**
+```
+User deleted successfully
+```
+
+**Response `404 Not Found`**
+```
+User not found with id 1
+```
 
 ---
 
@@ -256,6 +262,32 @@ Base path: `/task`
 | `GET` | `/task/all` | List all tasks |
 | `PUT` | `/task/update` | Update a task |
 | `DELETE` | `/task/delete` | Delete a task |
+
+---
+
+## Web UI
+
+A Thymeleaf-powered web interface is available alongside the REST API.
+
+Base path: `/user/ui`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/user/ui/list` | Show all users in an HTML table |
+| `GET` | `/user/ui/{id}` | Show details for a specific user |
+| `GET` | `/user/ui/update/{id}` | Show the update form for a user |
+| `PUT` | `/user/ui/update/{id}` | Submit the update form |
+| `DELETE` | `/user/ui/delete/{id}` | Delete a user and redirect to the list |
+
+---
+
+## API Documentation (Swagger)
+
+Interactive API documentation is provided by **SpringDoc OpenAPI** and is available at:
+
+**http://localhost:8080/swagger-ui/index.html**
+
+All user endpoints include summary, description, and response code annotations.
 
 ---
 
@@ -275,6 +307,7 @@ The project currently uses a **file-based H2 database** (for testing) managed wi
 | `age` | INT | NOT NULL |
 | `rank` | VARCHAR | — |
 | `task_id` | BIGINT | Foreign Key → `tb_tasks(id)` |
+| `profile_picture` | VARCHAR | — |
 
 **`tb_tasks`**
 
@@ -293,6 +326,11 @@ The project currently uses a **file-based H2 database** (for testing) managed wi
 
 Flyway migration scripts are located in `src/main/resources/db/migrations/`.
 
+| Version | Description |
+|---------|-------------|
+| `V2` | Add `rank` column to `tb_users` |
+| `V3` | Add `profile_picture` column to `tb_users` |
+
 ---
 
 ## Testing
@@ -310,11 +348,14 @@ Tests use **JUnit 5** via the Spring Boot test framework. The test suite current
 ```
 src/
 └── main/
-│   ├── java/dev/java10x/cadastroapi/
+│   ├── java/dev/java10x/usermanagementapi/
 │   │   ├── UserManagementApplication.java   # Application entry point
 │   │   ├── Users/
 │   │   │   ├── Controller/UserController.java
+│   │   │   ├── ControllerUi/UserControllerUi.java
+│   │   │   ├── DTO/UserDTO.java
 │   │   │   ├── Entity/UserEntity.java
+│   │   │   ├── Mapper/UserMapper.java
 │   │   │   ├── Service/UserService.java
 │   │   │   └── Repository/UserRepository.java
 │   │   └── Tasks/
@@ -325,10 +366,15 @@ src/
 │   │       └── Repository/TaskRepository.java
 │   └── resources/
 │       ├── application.properties
+│       ├── templates/
+│       │   ├── showUsers.html
+│       │   ├── UserDetails.html
+│       │   └── UpdateUser.html
 │       └── db/migrations/
-│           └── V2__Add_rank_tb_users.sql
+│           ├── V2__Add_rank_tb_users.sql
+│           └── V3__Add_picture_tb_users.sql
 └── test/
-    └── java/dev/java10x/cadastroapi/
+    └── java/dev/java10x/usermanagementapi/
         └── CadastroApiApplicationTests.java
 ```
 
