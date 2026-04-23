@@ -156,7 +156,9 @@
             </td>
 
             <td class="actions">
-                <a href="#" class="btn btn-primary">Show</a>
+                <a th:href="@{/user/ui/{id}(id=${user.id})}" class="btn btn-primary">
+                    Show
+                </a>
 
                 <form th:action="@{/user/ui/delete/{id}(id=${user.id})}" method="post">
                     <input type="hidden" name="_method" value="delete"/>
@@ -166,7 +168,7 @@
                     </button>
                 </form>
 
-                <a href="#" class="btn btn-secondary">Update</a>
+                <a th:href="@{/user/ui/update/{id}(id=${user.id})}" class="btn btn-secondary">Update</a>
             </td>
         </tr>
         </tbody>

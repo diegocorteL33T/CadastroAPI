@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+        }
+
+        .container {
+            width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Update User</h1>
+
+    <form th:action="@{/user/ui/update/{id}(id=${user.id})}" method="post">
+        <input type="hidden" name="_method" value="put"/>
+
+        <label>Name</label>
+        <input type="text" name="name" th:value="${user.name}">
+
+        <label>Age</label>
+        <input type="number" name="age" th:value="${user.age}">
+
+        <label>Email</label>
+        <input type="email" name="email" th:value="${user.email}">
+
+        <label>Rank</label>
+        <input type="text" name="rank" th:value="${user.rank}">
+
+        <label>Profile Picture URL</label>
+        <input type="text" name="profile_picture" th:value="${user.profile_picture}">
+
+        <button type="submit">Update</button>
+    </form>
+
+    <a href="/user/ui/list">⬅ Back</a>
+</div>
+
+</body>
+</html>

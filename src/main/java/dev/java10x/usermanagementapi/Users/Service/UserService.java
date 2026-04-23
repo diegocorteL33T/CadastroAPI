@@ -39,31 +39,37 @@ public class UserService{
         return mapper.map(savedUser);
     }
 
-    public UserDTO updateUser(Long id,UserDTO UserDTO) {
-    Optional<UserEntity> user = repository.findById(id);
-    
-    if(user.isEmpty()) return null;
-    
-    UserEntity existingUser =  user.get();
-    
-    if(UserDTO.getName() != null){
-        existingUser.setName(UserDTO.getName());
-    }
-    if(UserDTO.getEmail() != null){
-        existingUser.setEmail(UserDTO.getEmail());
-    }
-    if(UserDTO.getRank()!= null){
-        existingUser.setRank(UserDTO.getRank());
-    }
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
 
-    if(UserDTO.getTask() != null){
-        existingUser.setTask(UserDTO.getTask());
-    }
+        Optional<UserEntity> optionalUser = repository.findById(id);
 
-    existingUser.setAge(UserDTO.getAge());
+        if (optionalUser.isEmpty()) return null;
 
-    UserEntity savedUser = repository.save(existingUser);
-    return mapper.map(savedUser);
+        UserEntity existingUser = optionalUser.get();
+
+        if (userDTO.getName() != null) {
+            existingUser.setName(userDTO.getName());
+        }
+
+        if (userDTO.getEmail() != null) {
+            existingUser.setEmail(userDTO.getEmail());
+        }
+
+        if (userDTO.getRank() != null) {
+            existingUser.setRank(userDTO.getRank());
+        }
+
+        if (userDTO.getTask() != null) {
+            existingUser.setTask(userDTO.getTask());
+        }
+
+        if (userDTO.getAge() != 0) {
+            existingUser.setAge(userDTO.getAge());
+        }
+
+        UserEntity savedUser = repository.save(existingUser);
+
+        return mapper.map(savedUser);
     }
 
     public void deleteUserById(Long id){ repository.deleteById(id); }

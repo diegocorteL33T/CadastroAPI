@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+        }
+
+        .container {
+            width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        img {
+            width: 120px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .back {
+            margin-top: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>User Details</h1>
+
+    <img th:src="${user.profile_picture}">
+
+    <p><b>Name:</b> <span th:text="${user.name}"></span></p>
+    <p><b>Age:</b> <span th:text="${user.age}"></span></p>
+    <p><b>Email:</b> <span th:text="${user.email}"></span></p>
+    <p><b>Rank:</b> <span th:text="${user.rank}"></span></p>
+
+    <div th:if="${user.task}">
+        <h3>Task</h3>
+        <p><b>Name:</b> <span th:text="${user.task.name}"></span></p>
+        <p><b>Difficulty:</b> <span th:text="${user.task.difficulty}"></span></p>
+    </div>
+
+    <div th:if="${user.task == null}">
+        <p>No task assigned</p>
+    </div>
+
+    <a href="/user/ui/list" class="back">⬅ Back</a>
+</div>
+
+</body>
+</html>
